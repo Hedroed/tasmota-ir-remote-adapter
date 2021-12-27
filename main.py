@@ -4,8 +4,6 @@ from os import path
 import signal
 import sys
 import time
-import asyncio
-import threading
 
 
 sys.path.append(path.join(path.dirname(path.abspath(__file__)), 'lib'))
@@ -29,14 +27,13 @@ def cleanup(signum, frame):
 async def main():
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
-    _ADAPTER = TasmotaIRAdapter(loop=asyncio.get_running_loop(), verbose=_DEBUG)
+    _ADAPTER = TasmotaIRAdapter(verbose=_DEBUG)
     # Wait until the proxy stops running, indicating that the gateway shut us
     # down.
     print('... Running forever')
     while _ADAPTER.proxy_running():
         print('running')
-        await asyncio.sleep(300)
-        # await asyncio.Future()  # run forever
+        time.sleep(300)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()

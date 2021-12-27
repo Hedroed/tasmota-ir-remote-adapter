@@ -11,7 +11,7 @@ _TIMEOUT = 3
 class TasmotaIRAdapter(Adapter):
     """Adapter for Xiaomi temperature and humidity sensor devices."""
 
-    def __init__(self, loop=None, verbose=False):
+    def __init__(self, verbose=False):
         """
         Initialize the object.
 
@@ -22,8 +22,6 @@ class TasmotaIRAdapter(Adapter):
                          'tasmota-ir-remote-adapter',
                          'tasmota-ir-remote-adapter',
                          verbose=verbose)
-
-        self.loop = loop
 
         self.pairing = False
         self.start_pairing(_TIMEOUT)
@@ -46,7 +44,7 @@ class TasmotaIRAdapter(Adapter):
 
             _id = f"tasmotair-{dev['ip'].replace('.', '-')}"
             if _id not in self.devices:
-                device = TasmotaIRSensorDevice(self, _id, dev['ip'], dev['codes'], loop=self.loop)
+                device = TasmotaIRSensorDevice(self, _id, dev['ip'], dev['codes'])
 
                 self.handle_device_added(device)
 

@@ -23,7 +23,7 @@ class TasmotaIRSensorDevice(Device):
 
         super().__init__(adapter, _id)
 
-        self._type = []
+        self._type = ['OnOffSwitch']
         self.name = 'Tasmota IR Remote'
         self.description = 'A Tasmota IR remote'
 
@@ -33,6 +33,18 @@ class TasmotaIRSensorDevice(Device):
         self.remote_actions = {}
 
         print(f'WIP: new {self.ip} device {self.codes}')
+
+        self.properties['state'] = Property(
+            self,
+            'state',
+            {
+                '@type': 'OnOffProperty',
+                'title': 'State',
+                'type': 'boolean',
+                'description': 'Current estimated state'
+            },
+        )
+        self.properties['state'].set_cached_value(False)
 
         for d in self.codes:
             code = d['code']
@@ -54,7 +66,12 @@ class TasmotaIRSensorDevice(Device):
         action.start()
         code = self.remote_actions[action.name]
 
-        cmd = "{%22Protocol%22:%22NEC%22,%22Bits%22:32,%22Data%22:%22" + code + "%22}"
+        if 'off' in action.name.lower():
+            self.set_property('state', False)
+        else:
+            self.set_property('state', True)
+
+        cmd = "{%22Protocol%22:%22NEC%22,%22Bits%22:32,%22Data%22:%22" + code + "%22,%22Repeat%22:2}"
 
         res = requests.get(f'http://{self.ip}/cm?cmnd=IrSend%20{cmd}')
         res.raise_for_status()

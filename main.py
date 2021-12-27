@@ -24,7 +24,7 @@ def cleanup(signum, frame):
     sys.exit(0)
 
 
-async def main():
+def main():
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
     _ADAPTER = TasmotaIRAdapter(verbose=_DEBUG)

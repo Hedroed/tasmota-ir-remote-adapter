@@ -2,7 +2,7 @@
 
 from gateway_addon import Adapter, Database
 
-from .mitemp_device import TasmotaIRSensorDevice
+from .tasmotair_device import TasmotaIRSensorDevice
 from .util import print
 
 _TIMEOUT = 3
@@ -44,7 +44,7 @@ class TasmotaIRAdapter(Adapter):
 
         for dev in config['devices']:
 
-            _id = f"mitemp-{dev['ip'].replace('.', '-')}"
+            _id = f"tasmotair-{dev['ip'].replace('.', '-')}"
             if _id not in self.devices:
                 device = TasmotaIRSensorDevice(self, _id, dev['ip'], dev['codes'], loop=self.loop)
 

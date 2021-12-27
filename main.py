@@ -10,7 +10,7 @@ import threading
 
 sys.path.append(path.join(path.dirname(path.abspath(__file__)), 'lib'))
 
-from pkg.mitemp_adapter import TasmotaIRAdapter  # noqa
+from pkg.tasmotair_adapter import TasmotaIRAdapter  # noqa
 from pkg.util import print
 
 

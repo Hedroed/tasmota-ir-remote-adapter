@@ -60,7 +60,7 @@
               },
               "codes": {
                 "type": "array",
-                "title": "List of codes to send then associated action if triggered",
+                "title": "Actions and associated codes",
                 "items": {
                     "type": "object",
                     "title": "A code",

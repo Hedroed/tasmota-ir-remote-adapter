@@ -1,20 +1,21 @@
-"""TP-Link adapter for WebThings Gateway."""
+"""Tasmota IR remote adapter for WebThings Gateway."""
 
 from os import path
-import functools
 import signal
 import sys
 import time
+import asyncio
+import threading
+
 
 sys.path.append(path.join(path.dirname(path.abspath(__file__)), 'lib'))
 
-from pkg.tplink_adapter import TPLinkAdapter  # noqa
+from pkg.mitemp_adapter import TasmotaIRAdapter  # noqa
+from pkg.util import print
 
 
-_DEBUG = False
+_DEBUG = True
 _ADAPTER = None
-
-print = functools.partial(print, flush=True)
 
 
 def cleanup(signum, frame):
@@ -25,12 +26,17 @@ def cleanup(signum, frame):
     sys.exit(0)
 
 
-if __name__ == '__main__':
+async def main():
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
-    _ADAPTER = TPLinkAdapter(verbose=_DEBUG)
-
+    _ADAPTER = TasmotaIRAdapter(loop=asyncio.get_running_loop(), verbose=_DEBUG)
     # Wait until the proxy stops running, indicating that the gateway shut us
     # down.
+    print('... Running forever')
     while _ADAPTER.proxy_running():
-        time.sleep(2)
+        print('running')
+        await asyncio.sleep(300)
+        # await asyncio.Future()  # run forever
+
+if __name__ == '__main__':
+    asyncio.run(main())

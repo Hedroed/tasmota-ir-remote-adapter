@@ -1,6 +1,6 @@
 {
   "author": "Hedroed",
-  "id": "tasmota-ir-adapter",
+  "id": "tasmota-ir-remote-adapter",
   "name": "Tasmota IR Remote",
   "short_name": "TasmotaIR",
   "description": "Send IR commands to Tasmota IR devices",

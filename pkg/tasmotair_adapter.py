@@ -19,8 +19,8 @@ class TasmotaIRAdapter(Adapter):
         """
         self.name = self.__class__.__name__
         Adapter.__init__(self,
-                         'tasmota-ir-adapter',
-                         'tasmota-ir-adapter',
+                         'tasmota-ir-remote-adapter',
+                         'tasmota-ir-remote-adapter',
                          verbose=verbose)
 
         self.loop = loop
@@ -30,7 +30,7 @@ class TasmotaIRAdapter(Adapter):
 
     def _add_from_config(self):
         """Attempt to add all configured devices."""
-        database = Database('tasmota-ir-adapter')
+        database = Database('tasmota-ir-remote-adapter')
         if not database.open():
             return
 
